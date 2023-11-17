@@ -4,13 +4,23 @@ import java.util.Scanner;
 
 import conta_bancaria.util.Cores;
 import conta_bancaria.util.Metodos;
-
+import conta_bancaria.model.Conta;
 public class Menu {
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		int opcao = 1;
-
+		
+		Conta c1 = new Conta(123, 11, 1, "Pablo Maia", 11122.0F);
+		c1.visualizar();
+		System.out.println("Exibir o Saldo: " + c1.getSaldo());
+		c1.setSaldo(77777.0f);
+		c1.visualizar();
+		c1.sacarValor(222.0f);
+		c1.visualizar();
+		c1.depositarValor(77777);
+		c1.visualizar();
+		
 		while (true) {
 
 			System.out.println(Cores.RED_BOLD + Cores.BLACK_BACKGROUND);
