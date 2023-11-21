@@ -5,6 +5,8 @@ import java.util.Scanner;
 import conta_bancaria.util.Cores;
 import conta_bancaria.util.Metodos;
 import conta_bancaria.model.Conta;
+import conta_bancaria.model.ContaCorrente;
+import conta_bancaria.model.ContaPoupanca;
 public class Menu {
 	static Scanner sc = new Scanner(System.in);
 
@@ -20,6 +22,16 @@ public class Menu {
 		c1.visualizar();
 		c1.depositarValor(77777);
 		c1.visualizar();
+		
+		
+		ContaCorrente cc1 = new ContaCorrente(3, 1111, 1, "Marcio", 7777.00F, 200.00F);
+		cc1.visualizar();
+		cc1.sacarValor(7900.00F);
+		cc1.visualizar();
+		
+		ContaPoupanca cp1 = new ContaPoupanca(74, 3222, 2, "Jonas", 123456.00F, 21);
+		cp1.visualisar();
+		
 		
 		while (true) {
 
