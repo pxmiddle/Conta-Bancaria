@@ -2,37 +2,27 @@ package conta_bancaria;
 
 import java.util.Scanner;
 
-import conta_bancaria.util.Cores;
-import conta_bancaria.util.Metodos;
-import conta_bancaria.model.Conta;
+import conta_bancaria.controller.ContaController;
 import conta_bancaria.model.ContaCorrente;
 import conta_bancaria.model.ContaPoupanca;
+import conta_bancaria.util.Cores;
+import conta_bancaria.util.Metodos;
+
 public class Menu {
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		int opcao = 1;
-		
-		Conta c1 = new Conta(123, 11, 1, "Pablo Maia", 11122.0F);
-		c1.visualizar();
-		System.out.println("Exibir o Saldo: " + c1.getSaldo());
-		c1.setSaldo(77777.0f);
-		c1.visualizar();
-		c1.sacarValor(222.0f);
-		c1.visualizar();
-		c1.depositarValor(77777);
-		c1.visualizar();
-		
-		
-		ContaCorrente cc1 = new ContaCorrente(3, 1111, 1, "Marcio", 7777.00F, 200.00F);
-		cc1.visualizar();
-		cc1.sacarValor(7900.00F);
-		cc1.visualizar();
-		
-		ContaPoupanca cp1 = new ContaPoupanca(74, 3222, 2, "Jonas", 123456.00F, 21);
-		cp1.visualisar();
-		
-		
+		ContaController contas = new ContaController();
+
+		int opcao = 1, numero, agencia, tipo, aniversario;
+		String titular;
+		float saldo, limite;
+
+		ContaCorrente cc1 = new ContaCorrente(contas.gerarNumero(), 1144, 1, "Jonas", 1000.00F, 100.00F);
+		contas.cadastrar(cc1);
+		ContaPoupanca cp1 = new ContaPoupanca(contas.gerarNumero(), 1144, 22, "Jonas", 1000.00F, 3);
+		contas.cadastrar(cp1);
+
 		while (true) {
 
 			System.out.println(Cores.RED_BOLD + Cores.BLACK_BACKGROUND);
@@ -52,8 +42,9 @@ public class Menu {
 			System.out.println("|                 9- Sair                                   |");
 			System.out.println("|                                                           |");
 			System.out.println("~-----------------------------------------------------------~");
-			System.out.printf("   Entre com a opção desejada:                              ");
+			System.out.printf("   Entre com a opção desejada:                               ");
 			opcao = sc.nextInt();
+			System.out.println(Cores.RESET);
 
 			if (opcao == 9) {
 				Metodos.sair();
@@ -62,8 +53,30 @@ public class Menu {
 			}
 
 			switch (opcao) {
-			case 1 -> Metodos.criarConta();
-			case 2 -> Metodos.listarContas();
+			case 1 -> {
+				System.out.println("Numero da agência: ");
+				agencia = sc.nextInt();
+				System.out.println("Digite o nome do Titular: ");
+				sc.skip("\\R");
+				titular = sc.nextLine();
+				System.out.println("Digite o Tipo da conta(1 - CC ou 2 - CP): ");
+				tipo = sc.nextInt();
+
+				System.out.println("Digite o saldo da conta: ");
+				saldo = sc.nextFloat();
+
+				switch (tipo) {
+				case 1 -> contas.cadastrar(new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, contas.calcularLimite(saldo)));
+			
+				case 2 -> {
+					System.out.println("Digite o Aniversário da conta: ");
+					aniversario = sc.nextInt();
+					contas.cadastrar(
+							new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
+				}
+				}
+			}
+			case 2 -> contas.listarTodas();
 			case 3 -> Metodos.buscarConta();
 			case 4 -> Metodos.atualizarConta();
 			case 5 -> Metodos.apagarConta();
