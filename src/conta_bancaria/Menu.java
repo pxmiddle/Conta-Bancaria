@@ -1,5 +1,6 @@
 package conta_bancaria;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import conta_bancaria.controller.ContaController;
@@ -43,9 +44,14 @@ public class Menu {
 			System.out.println("|                                                           |");
 			System.out.println("~-----------------------------------------------------------~");
 			System.out.printf("   Entre com a opção desejada:                               ");
-			opcao = sc.nextInt();
 			System.out.println(Cores.RESET);
-
+			try {
+			opcao = sc.nextInt();
+			}catch(InputMismatchException e) {
+				System.out.println("Digite valores inteiros.");
+				sc.nextLine();
+				opcao = 0;
+			}
 			if (opcao == 9) {
 				Metodos.sair();
 				sc.close();
@@ -66,8 +72,9 @@ public class Menu {
 				saldo = sc.nextFloat();
 
 				switch (tipo) {
-				case 1 -> contas.cadastrar(new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, contas.calcularLimite(saldo)));
-			
+				case 1 -> contas.cadastrar(new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo,
+						contas.calcularLimite(saldo)));
+
 				case 2 -> {
 					System.out.println("Digite o Aniversário da conta: ");
 					aniversario = sc.nextInt();
@@ -75,15 +82,44 @@ public class Menu {
 							new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
 				}
 				}
+				contas.keyPress();
 			}
-			case 2 -> contas.listarTodas();
-			case 3 -> Metodos.buscarConta();
-			case 4 -> Metodos.atualizarConta();
-			case 5 -> Metodos.apagarConta();
-			case 6 -> Metodos.sacarValor();
-			case 7 -> Metodos.depositarValor();
-			case 8 -> Metodos.transferenciaContas();
-			default -> System.out.println("Opção Inválida!");
+			case 2 -> {
+				contas.listarTodas();
+				contas.keyPress();
+			}
+			case 3 -> {
+				System.out.println("Digite o numero da conta: ");
+				numero = sc.nextInt();
+				contas.procurarPorNumero(numero);
+				contas.keyPress();
+			}
+			case 4 -> {
+				Metodos.atualizarConta();
+				contas.keyPress();
+			}
+			case 5 -> {
+				System.out.println("Digite o numero da conta: ");
+				numero = sc.nextInt();
+				contas.deletar(numero);
+				contas.keyPress();
+			}
+			case 6 -> {
+				Metodos.sacarValor();
+				contas.keyPress();
+			}
+			case 7 -> {
+				Metodos.depositarValor();
+				contas.keyPress();
+			}
+			case 8 -> {
+				Metodos.transferenciaContas();
+				contas.keyPress();
+			}
+			default -> {
+				System.out.println("Opção Inválida!");
+				contas.keyPress();
+			}
 			}
 
 		}
