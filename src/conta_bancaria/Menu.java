@@ -1,9 +1,11 @@
 package conta_bancaria;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
 import conta_bancaria.controller.ContaController;
+import conta_bancaria.model.Conta;
 import conta_bancaria.model.ContaCorrente;
 import conta_bancaria.model.ContaPoupanca;
 import conta_bancaria.util.Cores;
@@ -17,12 +19,7 @@ public class Menu {
 
 		int opcao = 1, numero, agencia, tipo, aniversario;
 		String titular;
-		float saldo, limite;
-
-		ContaCorrente cc1 = new ContaCorrente(contas.gerarNumero(), 1144, 1, "Jonas", 1000.00F, 100.00F);
-		contas.cadastrar(cc1);
-		ContaPoupanca cp1 = new ContaPoupanca(contas.gerarNumero(), 1144, 22, "Jonas", 1000.00F, 3);
-		contas.cadastrar(cp1);
+		float saldo;
 
 		while (true) {
 
@@ -46,8 +43,8 @@ public class Menu {
 			System.out.printf("   Entre com a opção desejada:                               ");
 			System.out.println(Cores.RESET);
 			try {
-			opcao = sc.nextInt();
-			}catch(InputMismatchException e) {
+				opcao = sc.nextInt();
+			} catch (InputMismatchException e) {
 				System.out.println("Digite valores inteiros.");
 				sc.nextLine();
 				opcao = 0;
@@ -95,7 +92,39 @@ public class Menu {
 				contas.keyPress();
 			}
 			case 4 -> {
-				Metodos.atualizarConta();
+				System.out.println("Digite o numero da conta: ");
+				numero = sc.nextInt();
+
+				Optional<Conta> conta = contas.buscarNaCollection(numero);
+
+				if (conta.isPresent()) {
+
+					System.out.println("Numero da agência: ");
+					agencia = sc.nextInt();
+					System.out.println("Digite o nome do Titular: ");
+					sc.skip("\\R");
+					titular = sc.nextLine();
+
+					tipo = conta.get().getTipoConta();
+
+					System.out.println("Digite o saldo da conta: ");
+					saldo = sc.nextFloat();
+
+					switch (tipo) {
+					case 1 -> contas.atualizar(new ContaCorrente(numero, agencia, tipo, titular, saldo,
+							contas.calcularLimite(saldo)));
+
+					case 2 -> {
+						System.out.println("Digite o Aniversário da conta: ");
+						aniversario = sc.nextInt();
+						contas.atualizar(
+								new ContaPoupanca(numero, agencia, tipo, titular, saldo, aniversario));
+					}
+					}
+				} else {
+					System.out.println("A conta número: " + numero + " não foi encontrada");
+				}
+
 				contas.keyPress();
 			}
 			case 5 -> {
