@@ -9,7 +9,6 @@ import conta_bancaria.model.Conta;
 import conta_bancaria.model.ContaCorrente;
 import conta_bancaria.model.ContaPoupanca;
 import conta_bancaria.util.Cores;
-import conta_bancaria.util.Metodos;
 
 public class Menu {
 	static Scanner sc = new Scanner(System.in);
@@ -50,7 +49,7 @@ public class Menu {
 				opcao = 0;
 			}
 			if (opcao == 9) {
-				Metodos.sair();
+				contas.sair();
 				sc.close();
 				System.exit(0);
 			}

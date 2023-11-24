@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import conta_bancaria.model.Conta;
 import conta_bancaria.repository.ContaRepository;
+import conta_bancaria.util.Cores;
 
 public class ContaController implements ContaRepository {
 
@@ -142,6 +143,22 @@ public class ContaController implements ContaRepository {
 			System.out.println("Você pressionou uma tecla inválida.");
 
 		}
+	}
+	public void sair() {
+		System.out.println(Cores.RED_BOLD + Cores.BLACK_BACKGROUND);
+		System.out.println("~-----------------------------------------------------------~");
+		System.out.println("|                                                           |");
+		System.out.println("|                    Banco Novo(Antigo)                     |");
+		System.out.println("|                                                           |");
+		System.out.println("~-----------------------------------------------------------~");
+		System.out.println("|                                                           |");
+		System.out.println("|Banco Novo(Antigo) o banco mais velho e inovador do planeta|");
+		System.out.println("|                                                           |");
+		System.out.println("|Desenvolvido por: Pablo                                    |");
+		System.out.println("|github.com/pxmiddle                                        |");
+		System.out.println("|                                                           |");
+		System.out.println("~-----------------------------------------------------------~");
+		System.out.println(Cores.RESET);
 	}
 
 }
