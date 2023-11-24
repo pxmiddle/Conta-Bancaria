@@ -74,20 +74,47 @@ public class ContaController implements ContaRepository {
 
 	@Override
 	public void sacar(int numero, float valor) {
-		// TODO Auto-generated method stub
+
+		Optional<Conta> conta = buscarNaCollection(numero);
+
+		if (conta.isPresent()) {
+			if (conta.get().sacarValor(valor) == true) {
+				System.out.println("O saque na conta número: " + numero + " foi efetuado com sucesso.");
+			}
+
+		} else {
+			System.out.println("A conta número: " + numero + " não foi encontrada.");
+		}
 
 	}
 
 	@Override
 	public void depositar(int numero, float valor) {
-		// TODO Auto-generated method stub
 
+		Optional<Conta> conta = buscarNaCollection(numero);
+
+		if (conta.isPresent()) {
+			conta.get().depositarValor(valor);
+			System.out.println("O depósito na conta número: " + numero + " foi efetuado com sucesso.");
+		} else {
+			System.out.println("A conta número: " + numero + " não foi encontrada.");
+		}
 	}
 
 	@Override
 	public void tranferir(int numeroOrigem, int numeroDestino, float valor) {
-		// TODO Auto-generated method stub
+		Optional<Conta> contaOrigem = buscarNaCollection(numeroOrigem);
+		Optional<Conta> contaDestino = buscarNaCollection(numeroDestino);
 
+		if (contaOrigem.isPresent() && contaDestino.isPresent()) {
+			if (contaOrigem.get().sacarValor(valor) == true) {
+				contaDestino.get().depositarValor(valor);
+				System.out.println("Transação Realizada com sucesso!");
+			}
+
+		} else {
+			System.out.println("A Conta de Origem e/ou Destino não foram encontradas!");
+		}
 	}
 
 	// Métodos Auxiliares

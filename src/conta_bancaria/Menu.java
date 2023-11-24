@@ -17,9 +17,9 @@ public class Menu {
 	public static void main(String[] args) {
 		ContaController contas = new ContaController();
 
-		int opcao = 1, numero, agencia, tipo, aniversario;
+		int opcao = 1, numero, agencia, tipo, aniversario, numeroDestino;
 		String titular;
-		float saldo;
+		float saldo, valor;
 
 		while (true) {
 
@@ -111,14 +111,13 @@ public class Menu {
 					saldo = sc.nextFloat();
 
 					switch (tipo) {
-					case 1 -> contas.atualizar(new ContaCorrente(numero, agencia, tipo, titular, saldo,
-							contas.calcularLimite(saldo)));
+					case 1 -> contas.atualizar(
+							new ContaCorrente(numero, agencia, tipo, titular, saldo, contas.calcularLimite(saldo)));
 
 					case 2 -> {
 						System.out.println("Digite o Aniversário da conta: ");
 						aniversario = sc.nextInt();
-						contas.atualizar(
-								new ContaPoupanca(numero, agencia, tipo, titular, saldo, aniversario));
+						contas.atualizar(new ContaPoupanca(numero, agencia, tipo, titular, saldo, aniversario));
 					}
 					}
 				} else {
@@ -134,15 +133,38 @@ public class Menu {
 				contas.keyPress();
 			}
 			case 6 -> {
-				Metodos.sacarValor();
+				System.out.println("Digite o numero da conta: ");
+				numero = sc.nextInt();
+
+				System.out.println("Digite o valor do saque: ");
+				valor = sc.nextFloat();
+				contas.sacar(numero, valor);
+
 				contas.keyPress();
 			}
 			case 7 -> {
-				Metodos.depositarValor();
+				System.out.println("Digite o numero da conta: ");
+				numero = sc.nextInt();
+
+				System.out.println("Digite o valor do deposito: ");
+				valor = sc.nextFloat();
+				contas.depositar(numero, valor);
+
 				contas.keyPress();
 			}
 			case 8 -> {
-				Metodos.transferenciaContas();
+				System.out.println("Digite o numero da conta de Origem: ");
+				numero = sc.nextInt();
+				System.out.println("Digite o numero da conta de Destino: ");
+				numeroDestino = sc.nextInt();
+
+				System.out.println("Digite o valor do deposito: ");
+				valor = sc.nextFloat();
+				if (numero != numeroDestino) {
+					contas.tranferir(numero, numeroDestino, valor);
+				} else {
+					System.out.println("Os números das contas são iguais");
+				}
 				contas.keyPress();
 			}
 			default -> {
