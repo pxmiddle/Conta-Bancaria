@@ -36,7 +36,8 @@ public class Menu {
 			System.out.println("|                 6- Sacar                                  |");
 			System.out.println("|                 7- Depositar                              |");
 			System.out.println("|                 8- Transferir valores entre Contas        |");
-			System.out.println("|                 9- Sair                                   |");
+			System.out.println("|                 9- Consulta por Titular                   |");
+			System.out.println("|                 0- Sair                                   |");
 			System.out.println("|                                                           |");
 			System.out.println("~-----------------------------------------------------------~");
 			System.out.printf("   Entre com a opção desejada:                               ");
@@ -48,7 +49,7 @@ public class Menu {
 				sc.nextLine();
 				opcao = 0;
 			}
-			if (opcao == 9) {
+			if (opcao == 0) {
 				contas.sair();
 				sc.close();
 				System.exit(0);
@@ -164,6 +165,16 @@ public class Menu {
 				} else {
 					System.out.println("Os números das contas são iguais");
 				}
+				contas.keyPress();
+			}
+			case 9 -> {
+				System.out.println("Consultar Contas por titular");
+				
+				System.out.println("Digite o nome do Titular: ");
+				sc.skip("\\R");
+				titular = sc.nextLine();
+				
+				contas.procurarPorNome(titular);
 				contas.keyPress();
 			}
 			default -> {
